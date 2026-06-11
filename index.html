@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Canal Afiliado Setup — Manual Operacional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -727,6 +728,16 @@ com preço bom. Curadoria diária — sem spam.</pre>
     vídeos/mês <b style="color:var(--tk)">×</b> % que ganha tração <b style="color:var(--tk)">×</b> vendas por vídeo c/ tração <b style="color:var(--tk)">×</b> comissão = resultado<br>
     <span style="color:var(--muted)">linha recomendada · realista:&nbsp;</span>100 × 4% × 40 × R$12 <b style="color:var(--tk)">≈ R$1.920</b><br>
     <span style="color:var(--faint);font-size:11px">4 variáveis: você controla a 1ª direto (volume), a 2ª via hook/formato (M13/M15), a 3ª via produto (M14), a 4ª via trilho (registro §). Recalcule com seus números no Dia 30 — a fórmula é a mesma, as premissas é que mudam.</span>
+  </div>
+  <div id="cf-calc" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+    <div style="font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tk2);font-weight:700;margin-bottom:12px">Calculadora · recalibre com o SEU dado · salva sozinha</div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+      <label class="cf-in">vídeos/mês<input id="cf-v" type="number" min="0" step="1" value="100" inputmode="numeric"></label>
+      <label class="cf-in">% tração<input id="cf-t" type="number" min="0" max="100" step="0.5" value="4" inputmode="decimal"></label>
+      <label class="cf-in">vendas/vídeo<input id="cf-s" type="number" min="0" step="1" value="40" inputmode="numeric"></label>
+      <label class="cf-in">comissão R$<input id="cf-c" type="number" min="0" step="0.5" value="12" inputmode="decimal"></label>
+      <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:var(--fm);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--faint)">resultado/mês</span><b id="cf-out">≈ R$ 1.920</b></div>
+    </div>
   </div>
 </div>
   <div class="tw">
@@ -2425,6 +2436,8 @@ var VIDEOS = [
 // Deduplicate
 var seen={};
 VIDEOS=VIDEOS.filter(function(v){if(seen[v.id])return false;seen[v.id]=true;return true;});
+// Sanitiza apóstrofo ASCII na fonte (protege os onclick inline em qualquer re-render)
+VIDEOS.forEach(function(v){v.title=v.title.replace(/'/g,'’');});
 
 var currentCat='todos';
 var currentId=null;
@@ -2583,6 +2596,7 @@ h1.hero-title{display:flex;flex-direction:column}
 /* ═══ QA FIX 7 + UX E · tabelas ═══ */
 tbody tr{transition:background .15s}
 tbody tr:hover td{background:rgba(255,255,255,.018)}
+tbody tr.hl:hover td{background:rgba(34,237,216,.05)}
 
 /* ═══ UX A · barra de progresso ═══ */
 #read-progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--tk);z-index:120;transition:width .08s linear}
@@ -2636,6 +2650,93 @@ details.t90 .t90-bd{animation:t90in .28s ease}
   }
   window.addEventListener('scroll',onScroll,{passive:true});
   onScroll();
+})();
+</script>
+
+<!-- UPGRADES · checklists interativos + calculadora + modo gravação mobile + deep-link details -->
+<style>
+/* checklists com persistência */
+.has-ckb{position:relative;padding-right:48px!important}
+.ckb{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:19px;height:19px;border:1px solid var(--line2);border-radius:2px;background:var(--panel2);cursor:pointer;color:var(--ink);font-size:12px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s,border-color .15s;flex-shrink:0}
+.ckb:hover{border-color:var(--tk)}
+.ck-done{opacity:.45}
+.ck-done .ckb{background:var(--tk);border-color:var(--tk);opacity:1}
+/* calculadora da fórmula */
+.cf-in{display:flex;flex-direction:column;gap:4px;font-family:var(--fm);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--faint)}
+.cf-in input{width:96px;background:var(--panel2);border:1px solid var(--line2);border-radius:2px;color:var(--text);font-family:var(--fm);font-size:14px;font-weight:700;padding:8px 10px;appearance:textfield;-moz-appearance:textfield}
+.cf-in input::-webkit-outer-spin-button,.cf-in input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.cf-in input:focus{outline:1px solid var(--tk);border-color:var(--tk)}
+#cf-out{font-family:var(--fm);font-size:22px;color:var(--tk);font-weight:700;line-height:1.2}
+/* modo gravação · timecode em cartelas no mobile */
+@media(max-width:679px){
+  .rt-tc table{min-width:0;width:100%}
+  .rt-tc thead{display:none}
+  .rt-tc tbody tr{display:block;border-bottom:2px solid var(--line2);padding:6px 0}
+  .rt-tc tbody tr:last-child{border-bottom:none}
+  .rt-tc td{display:block;border-bottom:1px dashed var(--line);padding:9px 14px}
+  .rt-tc td:last-child{border-bottom:none}
+  .rt-tc td::before{content:attr(data-label);display:block;font-family:var(--fm);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+  .rt-tc td.t{font-size:16px}
+}
+</style>
+<script>
+(function(){
+  /* ── deep-link: âncora dentro de details fechado passa a abrir ── */
+  function openTarget(){
+    var id=location.hash.slice(1);if(!id)return;
+    var el=document.getElementById(id);if(!el||!el.closest)return;
+    if(el.tagName==='DETAILS')el.open=true;
+    var d=el.closest('details');
+    while(d){d.open=true;d=d.parentElement?d.parentElement.closest('details'):null;}
+  }
+  window.addEventListener('hashchange',openTarget);
+  openTarget();
+
+  /* ── modo gravação: data-label nas células do timecode (CSS mobile usa) ── */
+  document.querySelectorAll('.rt-tc table').forEach(function(tb){
+    var hs=[].map.call(tb.querySelectorAll('thead th'),function(th){return th.textContent});
+    tb.querySelectorAll('tbody tr').forEach(function(tr){
+      [].forEach.call(tr.children,function(td,i){td.setAttribute('data-label',hs[i]||'');});
+    });
+  });
+
+  /* ── checklists com localStorage ── */
+  function djb2(s){var h=5381,i;for(i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0}return(h>>>0).toString(36)}
+  var ckStore={};
+  try{ckStore=JSON.parse(localStorage.getItem('sm3-ck')||'{}')}catch(e){}
+  function ckSave(){try{localStorage.setItem('sm3-ck',JSON.stringify(ckStore))}catch(e){}}
+  var used={};
+  document.querySelectorAll('.steps-list>li, .cron-log .day-row').forEach(function(el){
+    var key='k'+djb2(el.textContent.replace(/\s+/g,' ').trim().slice(0,200));
+    while(used[key])key+='x'; // colisão de texto idêntico → chave única por ordem
+    used[key]=true;
+    var b=document.createElement('button');
+    b.type='button';b.className='ckb';b.setAttribute('aria-label','marcar como feito');
+    el.classList.add('has-ckb');el.appendChild(b);
+    function render(){var on=!!ckStore[key];el.classList.toggle('ck-done',on);b.textContent=on?'✓':'';b.setAttribute('aria-pressed',on?'true':'false');}
+    b.addEventListener('click',function(){if(ckStore[key]){delete ckStore[key]}else{ckStore[key]=1}ckSave();render();});
+    render();
+  });
+
+  /* ── calculadora da fórmula (Parte 07) ── */
+  var ids=['cf-v','cf-t','cf-s','cf-c'];
+  var els=ids.map(function(i){return document.getElementById(i)});
+  var out=document.getElementById('cf-out');
+  if(out&&els.every(Boolean)){
+    var saved={};
+    try{saved=JSON.parse(localStorage.getItem('sm3-calc')||'{}')}catch(e){}
+    els.forEach(function(e){if(saved[e.id]!=null)e.value=saved[e.id];});
+    function calc(){
+      var v=parseFloat(els[0].value)||0,t=parseFloat(els[1].value)||0,
+          s=parseFloat(els[2].value)||0,c=parseFloat(els[3].value)||0;
+      var r=v*(t/100)*s*c;
+      out.textContent='≈ R$ '+r.toLocaleString('pt-BR',{maximumFractionDigits:0});
+      var st={};els.forEach(function(e){st[e.id]=e.value});
+      try{localStorage.setItem('sm3-calc',JSON.stringify(st))}catch(e){}
+    }
+    els.forEach(function(e){e.addEventListener('input',calc)});
+    calc();
+  }
 })();
 </script>
 
