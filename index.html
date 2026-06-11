@@ -22,6 +22,7 @@
   --tg:#2AABEE;
   --wa:#25D366;
   --pin:#E60023;
+  --shein:#FF7AB8;
   --fd:'Archivo',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -36,6 +37,35 @@ a{color:inherit;text-decoration:none}
 .tb-brand span{color:var(--tk)}
 .tb-cta{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--ink);background:var(--tk);padding:7px 16px;border-radius:2px;white-space:nowrap;transition:opacity .18s;flex-shrink:0}
 .tb-cta:hover{opacity:.85}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-gear{font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--text);background:transparent;border:1px solid var(--line2);border-radius:2px;padding:6px 10px;cursor:pointer;white-space:nowrap;transition:border-color .15s}
+.tb-gear:hover{border-color:var(--faint)}
+.tb-gear[aria-expanded="true"]{border-color:var(--tk);color:var(--tk)}
+body.mode-solo .only-duo{display:none!important}
+body.mode-duo .only-solo{display:none!important}
+/* painel de preferências */
+.prefs-panel{position:fixed;top:52px;right:16px;z-index:100;background:var(--panel2);border:1px solid var(--line2);border-radius:4px;padding:15px 16px;display:flex;flex-direction:column;gap:15px;box-shadow:0 14px 44px rgba(0,0,0,.5);min-width:232px}
+.prefs-panel[hidden]{display:none}
+.pref-grp{display:flex;flex-direction:column;gap:8px}
+.pref-lbl{font-family:var(--fm);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);font-weight:700}
+.pref-btns{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.pf-btn{font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.5px;padding:7px 11px;background:transparent;border:1px solid var(--line2);border-radius:2px;color:var(--muted);cursor:pointer;transition:all .15s}
+.pf-btn:hover{color:var(--text);border-color:var(--faint)}
+.pf-btn.active{background:var(--tk);color:var(--ink);border-color:transparent}
+.pf-val{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--text);min-width:42px;text-align:center}
+@media(max-width:520px){.tb-x{display:none}.tb-cta{display:none}}
+/* ─── TEMA: morno (warm dark) ─── */
+body.theme-warm{--ink:#17110C;--panel:#211913;--panel2:#2B2018;--line:#3A2C21;--line2:#4A3A2C;--text:#F2E9DC;--muted:#B39C84;--faint:#6E5A47}
+body.theme-warm .topbar{background:rgba(23,17,12,.92)}
+/* ─── TEMA: light ─── */
+body.theme-light{--ink:#FBFAF7;--panel:#FFFFFF;--panel2:#F4F2ED;--line:#E6E3DC;--line2:#D6D2C8;--text:#1A1A20;--muted:#5E5E68;--faint:#A29C90;--tk:#0E9A8B;--tk2:#D63350;--tiktok-c:#0A9AA0;--shein:#C9477F}
+body.theme-light .topbar{background:rgba(251,250,247,.9)}
+body.theme-light .vt-card.playing{border-color:var(--tk)}
+/* light: cinzas hardcoded inline → texto escuro legível */
+body.theme-light [style*="#C8C8D4"],body.theme-light [style*="#D8D8E0"],body.theme-light [style*="#B8B8C4"],body.theme-light [style*="#C4C4D0"],body.theme-light [style*="#D2D2D8"],body.theme-light [style*="#DDD"],body.theme-light [style*="color:#fff"]{color:#26262C!important}
+/* light: cinzas hardcoded em regras de classe */
+body.theme-light .hk-card pre,body.theme-light .rt-tc td.fala,body.theme-light .pp-src ol li,body.theme-light .ts-step .x,body.theme-light .ts-pcard p,body.theme-light .fn-what,body.theme-light .dg-fix,body.theme-light .steps-list li,body.theme-light .bio-card pre,body.theme-light .day-dx,body.theme-light .mcol li,body.theme-light .pb-text{color:#2A2A30!important}
+body.theme-light .pp-src ol li b,body.theme-light .ts-step .x b,body.theme-light .fn-what b,body.theme-light .dg-sym,body.theme-light .steps-list li strong{color:#000!important}
 
 /* HERO */
 .hero{padding:110px 20px 64px;max-width:1080px;margin:0 auto}
@@ -150,6 +180,7 @@ h1.hero-title .s3{color:var(--tk)}
 .dot-tg{background:var(--tg)}
 .dot-wa{background:var(--wa)}
 .dot-skip{background:var(--faint)}
+.dot-shein{background:var(--shein)}
 
 /* FUNIL BOXES */
 .funil-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:20px}
@@ -282,14 +313,43 @@ footer{border-top:1px solid var(--line);padding:20px}
 </style>
 </head>
 <body>
+<script>try{var _b=document.body,_LS=localStorage;_b.classList.add('mode-'+(_LS.getItem('sm3-mode')==='solo'?'solo':'duo'));var _t=_LS.getItem('sm3-theme');_b.classList.add('theme-'+(_t==='warm'||_t==='light'?_t:'dark'));var _f=parseFloat(_LS.getItem('sm3-font'));if(_f&&_f!==1)document.documentElement.style.zoom=_f;}catch(e){document.body.classList.add('mode-duo');document.body.classList.add('theme-dark');}</script>
 
 <!-- TOPBAR -->
 <nav class="topbar">
   <div class="tb-in">
     <span class="tb-brand">SETUP_<span>MANUAL</span></span>
-    <a class="tb-cta" href="#indice">Índice</a>
+    <div class="tb-right">
+      <button class="tb-gear" id="prefs-toggle" aria-label="preferências" aria-expanded="false">⚙<span class="tb-x"> preferências</span></button>
+      <a class="tb-cta" href="#indice">Índice</a>
+    </div>
   </div>
 </nav>
+<div class="prefs-panel" id="prefs-panel" hidden>
+  <div class="pref-grp">
+    <span class="pref-lbl">Tema</span>
+    <div class="pref-btns">
+      <button class="pf-btn" data-theme="dark" type="button">Dark</button>
+      <button class="pf-btn" data-theme="warm" type="button">Morno</button>
+      <button class="pf-btn" data-theme="light" type="button">Light</button>
+    </div>
+  </div>
+  <div class="pref-grp">
+    <span class="pref-lbl">Tamanho do texto</span>
+    <div class="pref-btns">
+      <button class="pf-btn" data-font="dec" type="button" aria-label="diminuir texto">A−</button>
+      <span class="pf-val" id="pf-font-val">100%</span>
+      <button class="pf-btn" data-font="inc" type="button" aria-label="aumentar texto">A+</button>
+    </div>
+  </div>
+  <div class="pref-grp">
+    <span class="pref-lbl">Operação</span>
+    <div class="pref-btns">
+      <button class="pf-btn ms-btn" data-mode="solo" type="button">1 pessoa</button>
+      <button class="pf-btn ms-btn" data-mode="duo" type="button">2 pessoas</button>
+    </div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section>
@@ -297,7 +357,7 @@ footer{border-top:1px solid var(--line);padding:20px}
     <div>
       <div class="hero-kicker">Manual operacional · v3</div>
       <h1 class="hero-title">Canal<br><span class="s2">afiliado</span><br><span class="s3">setup.</span></h1>
-      <p class="hero-desc">Não é curso. Não é PDF de 8 páginas.<br>É a <strong>operação completa</strong> — do zero ao primeiro saque — montada pra dois operadores rodarem em paralelo com a vida que já têm.</p>
+      <p class="hero-desc">Não é curso. Não é PDF de 8 páginas.<br>É a <strong>operação completa</strong> — do zero ao primeiro saque — <span class="only-duo">montada pra duas pessoas rodarem em paralelo com a vida que já têm.</span><span class="only-solo">montada pra rodar com a vida que você já tem, sozinho ou em dupla.</span></p>
     </div>
     <div class="spec-card">
       <div class="sc-hd">Ficha técnica</div>
@@ -305,7 +365,7 @@ footer{border-top:1px solid var(--line);padding:20px}
       <div class="sc-r"><span class="sc-k">nicho</span><span class="sc-v">setup / mesa</span></div>
       <div class="sc-r"><span class="sc-k">operação</span><span class="sc-v">faceless · dark</span></div>
       <div class="sc-r"><span class="sc-k">monetização</span><span class="sc-v ok">TikTok Shop</span></div>
-      <div class="sc-r"><span class="sc-k">operadores</span><span class="sc-v">02 · sócios</span></div>
+      <div class="sc-r"><span class="sc-k">modo</span><span class="sc-v only-duo">02 · dupla (Pessoa A/B)</span><span class="sc-v only-solo">01 · solo</span></div>
       <div class="sc-r"><span class="sc-k">horizonte</span><span class="sc-v">mês 01 completo</span></div>
       <div class="sc-r"><span class="sc-k">revisão</span><span class="sc-v ok">v3 · ativo</span></div>
     </div>
@@ -322,6 +382,7 @@ footer{border-top:1px solid var(--line);padding:20px}
     <span class="ti"><span class="d" style="color:var(--yt)">▸</span>YouTube Shorts · cauda longa</span>
     <span class="ti"><span class="d" style="color:var(--pin)">▸</span>Pinterest · intenção de compra</span>
     <span class="ti"><span class="d" style="color:var(--amazon)">▸</span>Amazon · afiliados físicos</span>
+    <span class="ti"><span class="d" style="color:var(--shein)">▸</span>Shein · trilho de moda + try-on</span>
     <span class="ti"><span class="d" style="color:var(--tk)">▸</span>6 vídeos prontos com hook real</span>
     <span class="ti"><span class="d" style="color:var(--tiktok-c)">▸</span>cronograma 30 dias · dia a dia</span>
     <span class="ti"><span class="d" style="color:var(--tk2)">▸</span>3 decision-gates com plano de pivô</span>
@@ -332,6 +393,7 @@ footer{border-top:1px solid var(--line);padding:20px}
     <span class="ti"><span class="d" style="color:var(--yt)">▸</span>YouTube Shorts · cauda longa</span>
     <span class="ti"><span class="d" style="color:var(--pin)">▸</span>Pinterest · intenção de compra</span>
     <span class="ti"><span class="d" style="color:var(--amazon)">▸</span>Amazon · afiliados físicos</span>
+    <span class="ti"><span class="d" style="color:var(--shein)">▸</span>Shein · trilho de moda + try-on</span>
     <span class="ti"><span class="d" style="color:var(--tk)">▸</span>6 vídeos prontos com hook real</span>
     <span class="ti"><span class="d" style="color:var(--tiktok-c)">▸</span>cronograma 30 dias · dia a dia</span>
     <span class="ti"><span class="d" style="color:var(--tk2)">▸</span>3 decision-gates com plano de pivô</span>
@@ -376,12 +438,15 @@ footer{border-top:1px solid var(--line);padding:20px}
       <a class="ix-a" href="#s13"><span class="n">13</span>Biblioteca de hooks</a>
       <a class="ix-a" href="#s14"><span class="n">14</span>Pesquisa de produto</a>
       <a class="ix-a" href="#s17"><span class="n">17</span>Trilha de 90 dias</a>
+      <a class="ix-a" href="#s20"><span class="n">20</span>TikTok Shop a fundo</a>
     </div>
     <div class="ix-col" data-l="dominar">
       <div class="ix-col-hd">Dominar · técnico</div>
       <a class="ix-a" href="#s09"><span class="n">09</span>Decision-gates</a>
       <a class="ix-a" href="#s15"><span class="n">15</span>Criativo faceless a fundo</a>
+      <a class="ix-a" href="#s22"><span class="n">22</span>Criativo com rosto · try-on</a>
       <a class="ix-a" href="#s16"><span class="n">16</span>Diagnóstico · crescer ou travar</a>
+      <a class="ix-a" href="#s21"><span class="n">21</span>Diagnóstico de criativo · funil</a>
       <a class="ix-a" href="#s18"><span class="n">18</span>Estude X → entenda Y</a>
       <a class="ix-a" href="#s19"><span class="n">19</span>Videoteca</a>
     </div>
@@ -400,6 +465,7 @@ footer{border-top:1px solid var(--line);padding:20px}
         <tr><td>Shopee</td><td>até 30% (campanhas) · 3% cliente existente</td><td>7 dias · último clique · pega venda indireta</td><td>pgto mensal, até 30d após o período</td><td>verificado · jun/2026 · fonte oficial</td></tr>
         <tr><td>Amazon</td><td>1–15% por categoria</td><td>24h renovável · carrinho inteiro · até 90d se no carrinho</td><td>3 vendas nos 1ºs 180 dias ou a conta cai · declaração de afiliação obrigatória</td><td>verificado · jun/2026</td></tr>
         <tr><td>Mercado Livre</td><td>7–16% por categoria</td><td>30 dias do clique · direta + indireta (indireta paga menos)</td><td>conta ML + Mercado Pago · pgto mensal · estorno se devolução</td><td>verificado · jun/2026 (janela: 1 fonte — calibrar)</td></tr>
+        <tr><td>Shein <span style="color:var(--shein)">· moda</span></td><td>10–20% · forte p/ novo cliente · recorrente ~2%</td><td><b style="color:var(--text)">30 dias · último clique</b> (o mais longo)</td><td>entrada: S3 VIP ou ~10k seg (fontes divergem) · comissão "pendente" 45d antes de sacar · mín saque e método via PIX — confirmar no painel</td><td><b style="color:var(--tk2)">estimativa · calibrar</b> — números só em fonte secundária, nenhum de painel logado</td></tr>
         <tr><td>YouTube Shopping</td><td>def. pelo parceiro (ML, Shopee)</td><td>marcação no vídeo</td><td><b style="color:var(--tk2)">YPP + 10k inscritos</b> — corrige o "~5k" da versão anterior</td><td>verificado · jun/2026 · fonte oficial Google</td></tr>
         <tr><td>Pinterest</td><td>—(usa link dos programas acima)</td><td>a do programa do link</td><td>conta Business · <b style="color:var(--text)">encurtador proibido</b> · declarar afiliação · regra 80/20 conteúdo/oferta</td><td>verificado · jun/2026 · política da plataforma</td></tr>
       </tbody>
@@ -420,7 +486,7 @@ footer{border-top:1px solid var(--line);padding:20px}
   <p class="decl-text">A maioria para antes de começar porque estuda demais e <em>produz de menos</em>. Três coisas acontecem antes do primeiro vídeo. Pular qualquer uma é apostar no escuro.</p>
   <div class="decl-note">
     0.1 — validação da economia do produto: comissão, volume, devolução, ticket · obrigatório · 1h<br>
-    0.2 — divisão entre os dois sócios: copy/hook vs. esteira · nunca os dois na mesma função<br>
+    <span class="only-duo">0.2 — divisão entre Pessoa A e Pessoa B: copy/hook vs. esteira · nunca as duas na mesma função</span><span class="only-solo">0.2 — separação por blocos de tempo: o bloco de copy/hook nunca no mesmo bloco da esteira (captura/edição) · uma função de cada vez</span><br>
     0.3 — moldura de piloto: não é compromisso eterno · é ciclo com gate de decisão
   </div>
 </div>
@@ -481,7 +547,7 @@ footer{border-top:1px solid var(--line);padding:20px}
       </div>
     </div>
 
-    <div class="tier-block" data-plat="shopee" data-lit="pin,shopee,amazon">
+    <div class="tier-block" data-plat="shopee" data-lit="pin,shopee,amazon,shein">
       <div class="tier-hd">
         <span class="tier-badge">Tier 3 — Ativos compostos</span>
         <span class="tier-label">mês 2+</span>
@@ -506,6 +572,13 @@ footer{border-top:1px solid var(--line);padding:20px}
           <div class="plat-content">
             <div class="plat-name"><span class="plat-dot dot-amazon"></span>Amazon</div>
             <div class="plat-desc">cookie de 24h pega o carrinho inteiro. <b>declara a relação de afiliado</b> — exigência da plataforma. links na descrição do blog/YouTube.</div>
+          </div>
+        </div>
+        <div class="plat" data-p="shein">
+          <div class="plat-bar"></div>
+          <div class="plat-content">
+            <div class="plat-name"><span class="plat-dot dot-shein"></span>Shein <span style="font-family:var(--fm);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);border:1px solid var(--line2);padding:1px 6px;border-radius:2px;margin-left:6px">trilho de moda</span></div>
+            <div class="plat-desc">cookie de <b>30 dias · último clique</b> — o mais longo do conjunto. comissão 10–20%, forte pra <b>novo cliente</b>. <b>não é o nicho setup</b>: só entra quando você roda o formato <b>com rosto / try-on</b> (Parte 22). cupom na bio + ID do produto no vídeo. [verificado·jun/2026]</div>
           </div>
         </div>
       </div>
@@ -685,6 +758,8 @@ com preço bom. Curadoria diária — sem spam.</pre>
 <!-- 06: CRONOGRAMA -->
 <div class="sh r" id="s06"><div class="sh-inner"><span class="sh-no">06</span><span class="sh-label">cronograma · log do mês 01</span></div></div>
 <div class="sb r">
+  <div class="decl-note only-duo" style="margin-bottom:18px"><b style="color:var(--text)">Operando em dupla (Pessoa A/B):</b> as cadências abaixo são o ritmo-base. Com a esteira de 2 pessoas (Parte 15) os mesmos dias rendem mais vídeos no mesmo tempo — o cronograma não muda, a produção por bloco sobe.</div>
+  <div class="decl-note only-solo" style="margin-bottom:18px"><b style="color:var(--text)">Operando solo:</b> os números de vídeo/dia abaixo são o <b>teto em dupla</b>. Sozinho, divida por ~1,5: onde lê <b>3–4/dia</b>, mire <b>2–3/dia</b>; onde lê <b>2/dia</b>, mire <b>1–2/dia</b>. A sequência de dias e os checkpoints são idênticos — só o volume baixa. Sem culpa: consistência &gt; pico.</div>
   <div class="cron-log">
     <div class="wk-block">
       <div class="wk-hd">Semana 1 — Montagem e largada</div>
@@ -746,7 +821,8 @@ com preço bom. Curadoria diária — sem spam.</pre>
       <tbody>
         <tr><td>2/dia</td><td>~60</td><td>~R$324</td><td>~R$1.150</td><td>~R$3.600</td></tr>
         <tr class="hl"><td>3–4/dia · recomendado</td><td>~100</td><td>~R$540</td><td>~R$1.920</td><td>~R$6.000</td></tr>
-        <tr><td>6/dia · escala (2 sócios)</td><td>~180</td><td>~R$970</td><td>~R$3.450</td><td>~R$10.800</td></tr>
+        <tr class="only-duo"><td>6/dia · escala (dupla)</td><td>~180</td><td>~R$970</td><td>~R$3.450</td><td>~R$10.800</td></tr>
+        <tr class="only-solo"><td>5/dia · teto solo</td><td>~150</td><td>~R$810</td><td>~R$2.880</td><td>~R$9.000</td></tr>
       </tbody>
     </table>
   </div>
@@ -1450,6 +1526,7 @@ POR QUÊ: vídeo-resposta herda contexto e puxa a comunidade —
       </ul>
     </div>
   </div>
+  <div class="decl-note" style="margin-top:24px">Esses hooks são pensados pra <b style="color:var(--text)">faceless</b>. Pra vídeo <b>com rosto / try-on de roupa</b>, os ganchos são outros → <b style="color:var(--text)">Parte 22</b>.</div>
 </div>
 <!-- MÓDULO 14 -->
 <style>
@@ -1476,6 +1553,8 @@ POR QUÊ: vídeo-resposta herda contexto e puxa a comunidade —
 .pp-src[data-p="ml"] ol li::before{color:#E0CC00}
 .pp-src[data-p="swipe"] .pp-src-name{color:var(--tk)}
 .pp-src[data-p="swipe"] ol li::before{color:var(--tk)}
+.pp-src[data-p="shein"] .pp-src-name{color:var(--shein)}
+.pp-src[data-p="shein"] ol li::before{color:var(--shein)}
 .pp-sub{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .pp-sub span{font-family:var(--fm);font-size:11px;color:var(--muted);border:1px solid var(--line2);padding:6px 12px;border-radius:2px}
 .pp-sub span b{color:var(--tk);font-weight:700;margin-right:6px}
@@ -1542,6 +1621,17 @@ POR QUÊ: vídeo-resposta herda contexto e puxa a comunidade —
       <li><b>No painel de afiliados ML</b> (mercadolivre.com.br/afiliados): busque o produto, confira a % da categoria (7–16% [verificado · jun/2026]) e gere o link na própria página do anúncio.</li>
       <li><b>Prefira anúncios "Full" com frete grátis</b> — entrega rápida reduz arrependimento/devolução, e devolução estorna comissão.</li>
       <li><b>Janela de 30 dias do clique</b> [verificado · jun/2026 · 1 fonte] — é o link ideal pro Telegram, onde a compra nem sempre é imediata.</li>
+    </ol>
+  </div>
+
+  <div class="pp-src" data-p="shein">
+    <div class="pp-src-hd"><span class="pp-src-name">Shein · Centro de Afiliados</span><span class="pp-src-tag">só quando rodar o formato com rosto (Parte 22)</span></div>
+    <ol>
+      <li><b>App Shein → menu → "Afiliados" / "Centro de Afiliados"</b> (ou br.shein.com/campus). Cadastro passa por aprovação (~24h). Requisito de entrada diverge entre fontes — confirme no formulário atual. [estimativa·calibrar]</li>
+      <li><b>Priorize VESTUÁRIO:</b> é a categoria que paga comissão pra <b>cliente novo E recorrente</b>. Acessórios, beleza e eletrônico costumam pagar <b>só pra cliente novo</b> — confira a tabela de comissão do painel antes de escolher o produto. [estimativa·calibrar]</li>
+      <li><b>Gere o link curto na página do produto</b> + pegue o <b>cupom de indicação</b> (desconto pro seguidor). Fale o <b>ID do produto</b> no vídeo e deixe link+cupom fixados — padrão de haul que o público da Shein já procura.</li>
+      <li><b>Atribuição de 30 dias, último clique</b> [verificado·jun/2026] — o cookie mais longo do conjunto. Segura a conversão tardia típica de moda: ideal pra cupom na bio + recompra. Comissão fica "pendente" ~45 dias antes de virar saque.</li>
+      <li><b>Declare a parceria</b> ("publi"/"publicidade") de forma visível — CONAR exige desde jun/2026 (afiliação é publicidade). Shein <b>proíbe tráfego pago com o nome da marca</b> em palavra-chave/anúncio.</li>
     </ol>
   </div>
 
@@ -1763,27 +1853,58 @@ DESCRIÇÃO:  Os 3 achados do vídeo (links de afiliado):
     <li><strong>Vídeo-resposta a comentário</strong> (formato do Dia 7): quem teve o comentário respondido em vídeo segue na hora e vira defensor do canal.</li>
   </ol>
 
-  <!-- ESTEIRA -->
-  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">A esteira · um dia real · 2 sócios · 3–4 vídeos em ~90 min</div>
+  <!-- ESTEIRA · DUPLA -->
+  <div class="only-duo">
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">A esteira · dupla · um dia real · 3–4 vídeos em ~90 min</div>
   <div style="border:1px solid var(--line2);border-radius:2px;background:var(--panel);overflow:hidden">
     <div class="est-row">
       <span class="est-t">0–20'</span>
-      <span class="est-d"><b>Garimpo + decisão.</b> <span class="who a">SÓCIO A</span> abre painel TikTok Shop + planilha: escolhe os produtos do dia (já pré-validados na planilha — aqui só confirma preço/estoque) e define o hook de cada vídeo pela biblioteca do M13. Sai daqui com 3–4 pares produto+hook por escrito. <span class="who b">SÓCIO B</span> em paralelo: responde os comentários da noite e agenda os horários de post.</span>
+      <span class="est-d"><b>Garimpo + decisão.</b> <span class="who a">PESSOA A</span> abre painel TikTok Shop + planilha: escolhe os produtos do dia (já pré-validados na planilha — aqui só confirma preço/estoque) e define o hook de cada vídeo pela biblioteca do M13. Sai daqui com 3–4 pares produto+hook por escrito. <span class="who b">PESSOA B</span> em paralelo: responde os comentários da noite e agenda os horários de post.</span>
     </div>
     <div class="est-row">
       <span class="est-t">20–40'</span>
-      <span class="est-d"><b>Captura.</b> <span class="who b">SÓCIO B</span> faz o screen-record das listagens (vídeo + 3–4 imagens por produto) e joga tudo numa pasta por vídeo no Drive compartilhado (modelo de pasta por cliente que você já usa na D'Leads — mesmo padrão). <span class="who a">SÓCIO A</span> grava as narrações dos 3–4 roteiros em sequência (5 min por take, celular + fone).</span>
+      <span class="est-d"><b>Captura.</b> <span class="who b">PESSOA B</span> faz o screen-record das listagens (vídeo + 3–4 imagens por produto) e joga tudo numa pasta por vídeo no Drive compartilhado (modelo de pasta por cliente que você já usa na D'Leads — mesmo padrão). <span class="who a">PESSOA A</span> grava as narrações dos 3–4 roteiros em sequência (5 min por take, celular + fone).</span>
     </div>
     <div class="est-row">
       <span class="est-t">40–70'</span>
-      <span class="est-d"><b>Edição.</b> <span class="who b">SÓCIO B</span> monta no template CapCut: timeline do M12, narração por cima, cartelas de preço, auto-caption editada. ~10 min por vídeo quando o template está rodado. <span class="who a">SÓCIO A</span> escreve as captions (estrutura acima) e revisa cada export no MUDO — se funcionar sem som, aprova.</span>
+      <span class="est-d"><b>Edição.</b> <span class="who b">PESSOA B</span> monta no template CapCut: timeline do M12, narração por cima, cartelas de preço, auto-caption editada. ~10 min por vídeo quando o template está rodado. <span class="who a">PESSOA A</span> escreve as captions (estrutura acima) e revisa cada export no MUDO — se funcionar sem som, aprova.</span>
     </div>
     <div class="est-row">
       <span class="est-t">70–90'</span>
-      <span class="est-d"><b>Export + distribuição.</b> Export limpo 1080×1920 → re-render por plataforma → posta/agenda TikTok nos horários definidos → espelho IG/Shorts dos vencedores de ontem → <span class="who a">SÓCIO A</span> publica os 5–8 achados do dia no Telegram com contexto de 2 linhas. Fim. O resto do dia é só responder comentário na 1ª hora de cada post.</span>
+      <span class="est-d"><b>Export + distribuição.</b> Export limpo 1080×1920 → re-render por plataforma → posta/agenda TikTok nos horários definidos → espelho IG/Shorts dos vencedores de ontem → <span class="who a">PESSOA A</span> publica os 5–8 achados do dia no Telegram com contexto de 2 linhas. Fim. O resto do dia é só responder comentário na 1ª hora de cada post.</span>
     </div>
   </div>
-  <div class="decl-note" style="margin-top:14px">divisão fixa da Parte 00: <b style="color:var(--text)">Sócio A = copy/hook/caption/comunidade · Sócio B = esteira/captura/edição/publicação.</b> Nunca os dois na mesma função no mesmo dia — paralelismo é o que faz 90 min renderem 4 vídeos.</div>
+  <div class="decl-note" style="margin-top:14px">divisão fixa da Parte 00: <b style="color:var(--text)">Pessoa A = copy/hook/caption/comunidade · Pessoa B = esteira/captura/edição/publicação.</b> Nunca as duas na mesma função no mesmo dia — o paralelismo é o que faz 90 min renderem 4 vídeos.</div>
+  </div>
+
+  <!-- ESTEIRA · SOLO -->
+  <div class="only-solo">
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">A esteira · solo · um dia real · 2–3 vídeos em ~2h10</div>
+  <div style="border:1px solid var(--line2);border-radius:2px;background:var(--panel);overflow:hidden">
+    <div class="est-row">
+      <span class="est-t">0–20'</span>
+      <span class="est-d"><b>Garimpo + decisão.</b> Abre painel TikTok Shop + planilha: confirma preço/estoque dos produtos já pré-validados e define o hook de cada vídeo pela biblioteca do M13. Sai daqui com <b>2–3 pares produto+hook por escrito</b> — lote menor que a dupla, de propósito: sozinho, foco vence volume.</span>
+    </div>
+    <div class="est-row">
+      <span class="est-t">20–40'</span>
+      <span class="est-d"><b>Captura.</b> Screen-record das listagens (vídeo + 3–4 imagens por produto), tudo numa pasta por vídeo no Drive. Faz os 2–3 de uma vez — entrar e sair do painel uma vez só economiza mais tempo do que parece.</span>
+    </div>
+    <div class="est-row">
+      <span class="est-t">40–55'</span>
+      <span class="est-d"><b>Narração em lote.</b> Grava as narrações dos 2–3 roteiros em sequência, sem editar no meio (5 min por take, celular + fone). Gravar tudo junto mantém o tom e evita reaquecer a voz a cada take.</span>
+    </div>
+    <div class="est-row">
+      <span class="est-t">55–105'</span>
+      <span class="est-d"><b>Edição.</b> Monta no template CapCut: timeline do M12, narração por cima, cartelas de preço, auto-caption editada. ~15–20 min por vídeo solo (sem ninguém revisando em paralelo, você assume copy + corte). Revisa cada export no MUDO antes de fechar.</span>
+    </div>
+    <div class="est-row">
+      <span class="est-t">105–130'</span>
+      <span class="est-d"><b>Export + distribuição.</b> Export limpo 1080×1920 → re-render por plataforma → posta/agenda TikTok → espelho IG/Shorts dos vencedores de ontem → publica os achados no Telegram com contexto. Depois, só responder comentário na 1ª hora de cada post.</span>
+    </div>
+  </div>
+  <div class="decl-note" style="margin-top:14px"><b style="color:var(--text)">As duas funções continuam existindo</b> — copy/hook e esteira/captura/edição. Solo, você não junta as duas no mesmo bloco: termina o lote de uma antes de abrir a outra. É o paralelismo trocado por <b style="color:var(--text)">sequência limpa</b> — mais lento por dia, mas sustentável sem segunda pessoa.</div>
+  </div>
+  <div class="decl-note" style="margin-top:18px">Este módulo é faceless por definição. Vai mostrar o rosto / fazer try-on de roupa? → <b style="color:var(--text)">Parte 22</b> (criativo com rosto, hooks próprios, ponte Shein).</div>
 </div>
 <!-- MÓDULO 16 -->
 <style>
@@ -2227,6 +2348,7 @@ DESCRIÇÃO:  Os 3 achados do vídeo (links de afiliado):
 .vt-tab[data-cat="shopee"].active{background:var(--shopee);color:#fff}
 .vt-tab[data-cat="amazon"].active{background:var(--amazon);color:var(--ink)}
 .vt-tab[data-cat="mercadolivre"].active{background:#FFE600;color:var(--ink)}
+.vt-tab[data-cat="shein"].active{background:var(--shein);color:var(--ink)}
 .vt-tab[data-cat="todos"].active{background:var(--tk);color:var(--ink)}
 
 .vt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
@@ -2259,6 +2381,7 @@ DESCRIÇÃO:  Os 3 achados do vídeo (links de afiliado):
   <button class="vt-tab" data-cat="shopee" style="border-color:rgba(238,77,45,.3)">Shopee</button>
   <button class="vt-tab" data-cat="amazon" style="border-color:rgba(255,153,0,.3)">Amazon</button>
   <button class="vt-tab" data-cat="mercadolivre" style="border-color:rgba(255,230,0,.3)">Mercado Livre</button>
+  <button class="vt-tab" data-cat="shein" style="border-color:rgba(255,122,184,.3)">Shein</button>
 </div>
 
 <div class="vt-player-wrap" id="vt-player">
@@ -2284,7 +2407,8 @@ var BADGE_COLORS={
   'youtube-shop':{bg:'rgba(200,0,0,.15)',color:'#FF5555'},
   'shopee':{bg:'rgba(238,77,45,.15)',color:'var(--shopee)'},
   'amazon':{bg:'rgba(255,153,0,.15)',color:'var(--amazon)'},
-  'mercadolivre':{bg:'rgba(255,230,0,.15)',color:'#C9B200'}
+  'mercadolivre':{bg:'rgba(255,230,0,.15)',color:'#C9B200'},
+  'shein':{bg:'rgba(255,122,184,.15)',color:'var(--shein)'}
 };
 var CAT_LABELS={
   'tiktok-shop':'TikTok Shop',
@@ -2296,7 +2420,8 @@ var CAT_LABELS={
   'youtube-shop':'YouTube Shop',
   'shopee':'Shopee',
   'amazon':'Amazon',
-  'mercadolivre':'Mercado Livre'
+  'mercadolivre':'Mercado Livre',
+  'shein':'Shein'
 };
 
 var VIDEOS = [
@@ -2430,7 +2555,16 @@ var VIDEOS = [
   {id:'5YdMLs5fylg',cat:'mercadolivre',title:'Mercado Livre afiliado: resultados'},
   {id:'GoqmlJpG6_w',cat:'mercadolivre',title:'Como ser afiliado do Mercado Livre'},
   {id:'rrIAnWa-EJE',cat:'mercadolivre',title:'ML afiliados: estratégia de conteúdo'},
-  {id:'sDRTPt28sPo',cat:'mercadolivre',title:'Mercado Livre afiliados 2026: guia'}
+  {id:'sDRTPt28sPo',cat:'mercadolivre',title:'Mercado Livre afiliados 2026: guia'},
+  // Shein
+  {id:'oaTuI99Zo4g',cat:'shein',title:'Afiliado Shein atualizado: cadastro, links e o que mudou'},
+  {id:'lqCZuq499O0',cat:'shein',title:'Afiliado Shein: cadastro certo, lojinha e regras'},
+  {id:'7UcfqJhjbyE',cat:'shein',title:'Afiliado Shein pelo celular: passo a passo'},
+  {id:'ixL8VrsC9do',cat:'shein',title:'Como ser aprovado como afiliado Shein'},
+  {id:'b_mN3Yj3vk8',cat:'shein',title:'Estratégia pra ganhar muito como afiliado Shein'},
+  {id:'RS_KgSOSCEs',cat:'shein',title:'Estratégia pra vender todo dia na Shein'},
+  {id:'istPQ53mqPs',cat:'shein',title:'Ganhar como afiliado Shein sem aparecer'},
+  {id:'7E1aI5yeVLc',cat:'shein',title:'Vale a pena ser afiliado da Shein?'}
 ];
 
 // Deduplicate
@@ -2462,7 +2596,7 @@ function renderGrid(){
       '<div class="vt-title" onclick="vtPlay(\''+v.id+'\',\''+encodeURIComponent(v.title)+'\',\''+v.cat+'\')" style="cursor:pointer;margin-bottom:8px">'+v.title+'</div>'+
       '<div style="display:flex;gap:6px">'+
       '<button onclick="vtPlay(\''+v.id+'\',\''+encodeURIComponent(v.title)+'\',\''+v.cat+'\')" style="font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.3px;background:var(--panel2);color:var(--muted);border:1px solid var(--line2);border-radius:2px;padding:4px 10px;cursor:pointer;transition:color .15s" onmouseover="this.style.color=\'var(--text)\'" onmouseout="this.style.color=\'var(--muted)\'">▶ Assistir</button>'+
-      '<a href="'+ytUrl+'" target="_blank" rel="noopener" style="font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.3px;background:var(--yt);color:#fff;border:none;border-radius:2px;padding:4px 10px;text-decoration:none;display:inline-flex;align-items:center">↗ YouTube</a>'+
+      '<a class="vt-yt-btn" href="'+ytUrl+'" target="_blank" rel="noopener">↗ YouTube</a>'+
       '</div>'+
       '</div></div>';
   }).join('');
@@ -2522,10 +2656,364 @@ renderGrid();
 
 
 
+<!-- 20: TIKTOK SHOP A FUNDO -->
+<style>
+/* M20 — escopado */
+.ts-flow{border:1px solid var(--line2);border-radius:2px;background:var(--panel);overflow:hidden;margin-top:8px}
+.ts-step{display:flex;gap:14px;padding:13px 16px;border-bottom:1px solid var(--line);align-items:flex-start}
+.ts-step:last-child{border-bottom:none}
+.ts-step .n{font-family:var(--fm);font-size:11px;font-weight:700;color:var(--tiktok-c);flex-shrink:0;width:58px;letter-spacing:.5px}
+.ts-step .x{font-size:13px;color:#C8C8D4;line-height:1.55}
+.ts-step .x b{color:#fff;font-weight:600}
+.ts-plan{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px}
+@media(min-width:680px){.ts-plan{grid-template-columns:1fr 1fr}}
+.ts-pcard{border:1px solid var(--line);border-radius:2px;background:var(--panel);padding:14px 16px}
+.ts-pcard .h{font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:4px}
+.ts-pcard .t{font-family:var(--fm);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.ts-pcard p{font-size:13px;color:#C8C8D4;line-height:1.55}
+</style>
+<div class="sh r" id="s20"><div class="sh-inner"><span class="sh-no">20</span><span class="sh-label">TikTok Shop a fundo · [operar]</span></div></div>
+<div class="sb r">
+  <p class="decl-text" style="font-size:clamp(18px,3vw,28px)">Vender DENTRO do app é outro jogo. <em>O tráfego não sai, o checkout é nativo, a comissão é do TikTok</em> — e quem entende o ecossistema do Shop ganha mais do que quem só "marca produto".</p>
+
+  <div class="m-note" style="margin-top:20px"><strong>Aviso de calibragem:</strong> o TikTok Shop BR é recente e os números de requisito/saque mudam mês a mês. Tudo marcado <b style="color:var(--tk2)">[calibrar]</b> precisa de print da SUA tela — a web não fecha. Os blocos abaixo dão o mapa; o app dá o número do dia.</div>
+
+  <!-- 20.1 ecossistema -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.1 — Os três papéis do ecossistema</div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Papel</th><th>O que é</th><th>Precisa de</th><th>Onde você entra</th></tr></thead>
+      <tbody>
+        <tr><td><b>Seller / loja</b></td><td>cadastra produto, estoque, envia</td><td>CNPJ</td><td>não — é o dono do produto</td></tr>
+        <tr class="hl"><td><b>Criador-afiliado</b></td><td>marca produto de outros no vídeo e ganha comissão</td><td>CPF + seguidores</td><td><b style="color:var(--tiktok-c)">aqui · o seu papel</b></td></tr>
+        <tr><td><b>Live shopping</b></td><td>vende ao vivo, demonstra, cria urgência</td><td>1k seguidores</td><td>fase 2, quando já tiver audiência</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 20.2 requisitos -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.2 — Requisitos e cadastro (BR)</div>
+  <ol class="steps-list" style="margin-top:0">
+    <li><strong>Idade 18+</strong> e <strong>CPF</strong> — pessoa física entra como afiliado e recebe normal. CNPJ só é obrigatório pra virar seller/loja. [verificado·jun/2026]</li>
+    <li><strong>Conta Creator ou Business</strong> (não pode ser pessoal comum) com <strong>pelo menos 1 vídeo postado nos últimos 180 dias</strong>. [verificado·jun/2026]</li>
+    <li><strong>Seguidores:</strong> o número operante no BR gira em torno de <b>2.000</b> (com rollout caindo pra 1.000). Não confie em 5k/10k — é eco de mercado americano. <b style="color:var(--tk2)">[calibrar na tela de requisitos do app]</b></li>
+    <li><strong>Caminho:</strong> App TikTok → Perfil → menu (☰) → Ferramentas do Criador → <b>"TikTok Shop para Criador"</b>. Se a opção aparece, você é elegível; se não aparece, faltou requisito (quase sempre seguidores). [estimativa·calibrar — UI muda]</li>
+    <li><strong>Pra fazer LIVE com produto:</strong> 1.000 seguidores + 18+ [verificado·jun/2026] — esse é o número mais sólido, serve de âncora.</li>
+  </ol>
+
+  <!-- 20.3 planos -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.3 — Os planos de afiliação · onde mora a comissão</div>
+  <div class="ts-plan">
+    <div class="ts-pcard">
+      <div class="t">aberto · open plan</div>
+      <div class="h" style="color:var(--tiktok-c)">Colaboração aberta</div>
+      <p>qualquer criador que bate o requisito promove, <b>sem aprovação</b>, com comissão fixa global que o vendedor definiu. Mais alcance, comissão menor (tipicamente 10–15%). É por onde você começa. [verificado·jun/2026]</p>
+    </div>
+    <div class="ts-pcard">
+      <div class="t">direcionado · targeted</div>
+      <div class="h" style="color:var(--tk)">Colaboração direcionada</div>
+      <p>convite 1-a-1 entre vendedor e criador, comissão maior e negociada (15–25%+, top creators chegam mais alto). <b>A taxa do direcionado SEMPRE sobrepõe a do aberto</b> no mesmo produto. Vem quando você já provou tração. [verificado·jun/2026]</p>
+    </div>
+  </div>
+  <div class="decl-note" style="margin-top:14px">Quem define a comissão é o <b style="color:var(--text)">vendedor</b>, não o TikTok nem você. Faixa geral <b style="color:var(--text)">5–30%</b>, comum <b style="color:var(--text)">8–15%</b> [verificado·jun/2026]. Por categoria (beleza 15–30%, moda 10–15%) os números são majoritariamente do mercado US — <b style="color:var(--tk2)">confirme por produto no Marketplace</b>.</div>
+
+  <!-- 20.4 vitrine -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.4 — Vitrine (showcase) · sua sacola no perfil</div>
+  <p style="font-size:14px;color:#C8C8D4;line-height:1.7">O ícone de sacola no perfil deixa o público comprar direto, de uma ou várias lojas — e você <b>não precisa ter loja própria</b> pra ter vitrine. Disponível no BR. [verificado·jun/2026]. Monta em <b>Mercado de Produtos → selecionar → adicionar à vitrine</b>. Ordene pelo que converte (não pelo que tem comissão maior): produto visual e barato no topo. Limite de quantos cabem na vitrine: <b style="color:var(--tk2)">[calibrar no app]</b>.</p>
+
+  <!-- 20.5 product tag -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.5 — Product tag no vídeo · a pegadinha dos 14 dias</div>
+  <ol class="steps-list" style="margin-top:0">
+    <li><strong>Como marcar:</strong> ao subir o vídeo → "Adicionar link" → "Produto" → escolher do Marketplace. Dá pra usar um ou múltiplos por vídeo (máximo exato <b style="color:var(--tk2)">[calibrar]</b>).</li>
+    <li><strong>Atribuição de 14 dias, PRIMEIRO clique</strong> [verificado·jun/2026]: quem recebe o primeiro clique no produto fica com a comissão por 14 dias, mesmo que a compra feche depois noutro vídeo. É por isso que às vezes você marca e não ganha — o cliente já tinha clicado via outro criador. Conclusão: <b>seja o primeiro a apresentar o produto, não o décimo</b>.</li>
+    <li><strong>Configuração que salva comissão:</strong> no painel, deixe <b>"Alterações no link do produto" DESMARCADO</b> — senão o vendedor troca seu link e você perde a venda. [verificado·jun/2026]</li>
+    <li><strong>Elegibilidade do vídeo:</strong> conteúdo original, com o produto real aparecendo. Vídeo classificado como imagem estática / não-original perde o tag (ver 20.9).</li>
+  </ol>
+
+  <!-- 20.6 live -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.6 — Live shopping · fase 2</div>
+  <p style="font-size:14px;color:#C8C8D4;line-height:1.7">Requisito: <b>1.000 seguidores + 18+</b> [verificado·jun/2026]. Faz sentido quando você já tem audiência engajada e quer demonstrar produto ao vivo (urgência, "acabando o estoque", responder dúvida na hora). Comissão segue a mesma lógica de vídeo. <b>Não é prioridade do Mês 1</b> — entra quando o orgânico já roda sozinho.</p>
+
+  <!-- 20.7 fluxo do dinheiro -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.7 — O caminho do dinheiro</div>
+  <div class="ts-flow">
+    <div class="ts-step"><span class="n">clique</span><span class="x"><b>Cliente clica no product tag</b> e compra dentro do app. A venda é atribuída a você (janela de 14 dias, primeiro clique).</span></div>
+    <div class="ts-step"><span class="n">entrega</span><span class="x"><b>A comissão só conta depois da entrega.</b> Liberação entre <b>3 e 15 dias</b> após o cliente receber, dependendo do repasse do vendedor. [verificado·jun/2026]</span></div>
+    <div class="ts-step"><span class="n">4ª-feira</span><span class="x"><b>Pagamento automático toda quarta:</b> o que já liberou cai na carteira do app. [verificado·jun/2026]</span></div>
+    <div class="ts-step"><span class="n">saque</span><span class="x"><b>Você transfere da carteira pra conta bancária</b> — geralmente 1 saque grátis por semana. Valor mínimo em R$: <b style="color:var(--tk2)">[calibrar]</b> (não confunda com o US$10 do Programa Criativo, que é outra coisa).</span></div>
+    <div class="ts-step"><span class="n">estorno</span><span class="x"><b>Devolução estorna comissão.</b> Cliente pode devolver até ~30 dias após "entregue". Comissão de pedido devolvido não é paga — por isso a régua de produto (nota &gt;4,5, sem padrão de defeito) do M14 protege o seu bolso, não só o do cliente.</span></div>
+  </div>
+
+  <!-- 20.8 métricas painel -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">20.8 — Métricas do painel (Affiliate Center)</div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Métrica</th><th>O que diz</th><th>Como ler</th></tr></thead>
+      <tbody>
+        <tr><td><b>GMV</b></td><td>valor total de pedidos que você gerou</td><td>tamanho do que passou pela sua mão — não é o que você recebe</td></tr>
+        <tr><td><b>Cliques</b></td><td>quantos tocaram no produto</td><td>cliques altos + venda baixa = produto/preço errado, não criativo</td></tr>
+        <tr><td><b>Itens vendidos</b></td><td>unidades atribuídas a você</td><td>o número que vira comissão</td></tr>
+        <tr class="hl"><td><b>Comissão estimada × confirmada</b></td><td>o painel mostra a estimada</td><td><b style="color:var(--tk2)">a estimada NÃO é a final</b> — confirme no Affiliate Center após o settlement</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="decl-note" style="margin-top:14px">Esse painel é o input do <b style="color:var(--text)">funil de diagnóstico da Parte 21</b>: o clique no tag e a conversão fecham o funil que começa no hook. Cruze os dois — view alta sem clique é problema de oferta na tela; clique sem venda é problema de produto/preço.</div>
+
+  <!-- 20.9 erros -->
+  <div class="matrix" style="margin-top:28px">
+    <div class="mcol no">
+      <div class="mc-hd">O que derruba o afiliado</div>
+      <ul>
+        <li><b>Sistema de pontos:</b> violações tiram pontos; acumular (~-15) suspende o e-commerce da conta. [verificado·jun/2026]</li>
+        <li><b>Vídeo só com imagem de IA / foto de catálogo sem ter o produto</b> viola Originalidade e Autenticidade — já excluiu perfil. (Ligação direta com a Parte 21.5.)</li>
+        <li><b>Conteúdo classificado como não-original / imagem estática</b> — maior fonte de reclamação; derruba o tag mesmo às vezes injustamente.</li>
+        <li><b>Claims absolutos</b> ("cura", "melhor do mundo", garantia milagrosa) — blocklist literal não é pública, mas o padrão de e-commerce reprova. <b style="color:var(--tk2)">[calibrar]</b></li>
+      </ul>
+    </div>
+    <div class="mcol yes">
+      <div class="mc-hd">O que protege a conta</div>
+      <ul>
+        <li>Produto real aparecendo no vídeo (screen-record da listagem conta, IA pura não).</li>
+        <li>Conteúdo original — estrutura copiada de swipe é ok, arquivo baixado não.</li>
+        <li>Comissão e link conferidos antes de postar (link travado, 20.5).</li>
+        <li>Enforcement é automatizado e difícil de contestar — <b>prevenir &gt; recorrer</b>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 20.10 checklist -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:10px">20.10 — Checklist de ativação do Shop</div>
+  <ol class="steps-list" style="margin-top:0">
+    <li><strong>Conta Creator/Business</strong> com 1+ vídeo nos últimos 180 dias e seguidores no limiar.</li>
+    <li><strong>"TikTok Shop para Criador" ativado</strong> (Ferramentas do Criador) e termos aceitos.</li>
+    <li><strong>Dados bancários + chave de saque</strong> cadastrados na carteira.</li>
+    <li><strong>"Alterações no link do produto" desmarcado</strong> nas configurações.</li>
+    <li><strong>Vitrine montada</strong> com os 3 produtos validados do M14.</li>
+    <li><strong>Primeiro vídeo com product tag</strong> só depois dos 5 vídeos limpos (regra do Dia 06 do cronograma).</li>
+  </ol>
+</div>
+
+<!-- 21: DIAGNÓSTICO DE CRIATIVO -->
+<style>
+/* M21 — escopado */
+.fn-flow{border:1px solid var(--line2);border-radius:2px;background:var(--panel);overflow:hidden;margin-top:8px}
+.fn-row{display:flex;gap:0;align-items:stretch;border-bottom:1px solid var(--line)}
+.fn-row:last-child{border-bottom:none}
+.fn-stage{font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--tk2);width:128px;flex-shrink:0;padding:13px 14px;border-right:1px solid var(--line);display:flex;align-items:center;background:var(--panel2)}
+.fn-what{padding:13px 16px;font-size:13px;color:#C8C8D4;line-height:1.5}
+.fn-what b{color:#fff;font-weight:600}
+.dg-tree{border:1px solid var(--line);border-radius:2px;overflow:hidden;margin-top:8px}
+.dg-r{display:flex;gap:0;border-bottom:1px solid var(--line);align-items:stretch}
+.dg-r:last-child{border-bottom:none}
+.dg-sym{font-family:var(--fm);font-size:12px;font-weight:700;color:var(--tk2);width:148px;flex-shrink:0;padding:12px 14px;border-right:1px solid var(--line);line-height:1.45}
+.dg-fix{padding:12px 16px;font-size:13px;color:#C8C8D4;line-height:1.5}
+.dg-fix b{color:var(--tk);font-weight:600}
+@media(max-width:560px){.dg-r,.fn-row{flex-direction:column}.dg-sym,.fn-stage{width:auto;border-right:none;border-bottom:1px solid var(--line)}}
+</style>
+<div class="sh r" id="s21"><div class="sh-inner"><span class="sh-no">21</span><span class="sh-label">diagnóstico de criativo · o funil de um vídeo · [dominar]</span></div></div>
+<div class="sb r">
+  <p class="decl-text" style="font-size:clamp(18px,3vw,28px)">A régua (mínimo / ok / boom) mora na Parte 16. <em>Aqui é o método de leitura vídeo a vídeo</em> — onde o vídeo perdeu gente, e qual peça trocar pra recuperar. Vale pra qualquer vídeo, inclusive os que usam camada de IA.</p>
+
+  <div class="m-note" style="margin-top:20px"><strong>Aviso de fonte:</strong> as faixas numéricas abaixo vêm de agregadores de mercado, não do TikTok oficial. São <b>réguas de calibragem</b>, ótimas como referência, ruins como verdade exata. Variam muito por nicho — a média da SUA conta sempre manda mais que o número da internet.</div>
+
+  <!-- 21.1 funil -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">21.1 — O funil de um vídeo · cada etapa filtra gente</div>
+  <div class="fn-flow">
+    <div class="fn-row"><div class="fn-stage">impressão</div><div class="fn-what">o algoritmo mostrou. <b>Você não controla</b> — é consequência das etapas abaixo nos vídeos anteriores.</div></div>
+    <div class="fn-row"><div class="fn-stage">hook · 3s</div><div class="fn-what">passou dos 3 segundos? <b>É aqui que &gt;70% decide ficar ou sair.</b> Queda &gt;30% nos 3s = penhasco de hook.</div></div>
+    <div class="fn-row"><div class="fn-stage">retenção</div><div class="fn-what">segurou o corpo do vídeo? curva caindo no meio = o conteúdo prometeu e não entregou.</div></div>
+    <div class="fn-row"><div class="fn-stage">conclusão</div><div class="fn-what">assistiu até o fim / deu replay? <b>O sinal mais forte pra escala</b> — bar viral ≈ 70%.</div></div>
+    <div class="fn-row"><div class="fn-stage">save · share</div><div class="fn-what">guardou ou mandou pra alguém? valor de longo prazo — save prevê venda melhor que like.</div></div>
+    <div class="fn-row"><div class="fn-stage">clique no tag</div><div class="fn-what">tocou no produto? <b>aqui o criativo vira comércio</b> — mede no Affiliate Center (Parte 20.8).</div></div>
+    <div class="fn-row"><div class="fn-stage">conversão</div><div class="fn-what">comprou? checkout nativo do Shop converte ~3× mais que mandar pra site externo.</div></div>
+  </div>
+  <div class="decl-note" style="margin-top:12px">os percentuais deste funil (&gt;70% decide nos 3s · penhasco &gt;30% · conclusão viral ≈70% · ~3× do checkout nativo) são <b style="color:var(--tk2)">[estimativa · calibrar]</b> — faixas de mercado, calibre com a média da sua conta (21.3).</div>
+
+  <!-- 21.2 onde medir -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">21.2 — Onde ler cada etapa</div>
+  <p style="font-size:14px;color:#C8C8D4;line-height:1.7"><b>TikTok Studio → Analytics → o vídeo → "Retenção de espectadores"</b> dá a curva (hook 3s, retenção, conclusão, average watch time). <b>Curtidas/saves/shares/comentários</b> ficam no próprio vídeo e no Analytics. <b>Clique no tag e conversão</b> ficam no <b>Affiliate Center</b> (não no Analytics de conteúdo) — são dois painéis, cruze os dois.</p>
+
+  <!-- 21.3 benchmarks -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">21.3 — Faixas de referência 2026 · [estimativa · calibrar]</div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Métrica</th><th>Ruim</th><th>Ok</th><th>Bom</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Hook rate (passa dos 3s)</td><td>&lt;30%</td><td>30–35%</td><td>40%+</td></tr>
+        <tr><td>Retenção nos 3s</td><td>&lt;60%</td><td>70–85%</td><td>&gt;85%</td></tr>
+        <tr><td>Conclusão · vídeo &lt;15s</td><td>&lt;60%</td><td>70–80%</td><td>&gt;81%</td></tr>
+        <tr><td>Conclusão · 15–30s</td><td>&lt;50%</td><td>50–60%</td><td>&gt;65%</td></tr>
+        <tr><td>Conclusão · 30–60s</td><td>&lt;40%</td><td>40–50%</td><td>&gt;55%</td></tr>
+        <tr><td>Save rate</td><td>&lt;1%</td><td>~2%</td><td>&gt;3%</td></tr>
+        <tr><td>Share rate</td><td>&lt;0,5%</td><td>~1%</td><td>&gt;1%</td></tr>
+        <tr><td>Replay rate (rewatch)</td><td>&lt;1,0</td><td>~1,1</td><td>&gt;1,2</td></tr>
+        <tr><td>CVR TikTok Shop (clique→compra)</td><td>&lt;1,8%</td><td>~2,6%</td><td>3,7%+</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="decl-note" style="margin-top:14px">Estas linhas <b>complementam</b> a régua da Parte 16, não a substituem. O algoritmo de 2026 pesa, em ordem: <b style="color:var(--text)">rewatch &gt; share &gt; comentário &gt; like</b>. Conclusão alta &gt; duração alta — 30s a 70% bate 3min a 15%. O CTR isolado do product tag orgânico não tem benchmark público confiável: <b style="color:var(--tk2)">calibre com a média da sua conta</b>.</div>
+
+  <!-- 21.4 árvore -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">21.4 — Árvore de diagnóstico · métrica ruim → o que trocar</div>
+  <div class="dg-tree">
+    <div class="dg-r"><div class="dg-sym">Hook 3s fraco<br><span style="color:var(--faint);font-weight:400">penhasco na abertura</span></div><div class="dg-fix">a maioria saiu no 1º frame. Troca o <b>hook</b> (frase + imagem dos 2s), nunca o corpo. Põe a imagem mais forte do vídeo PRIMEIRO, corta intro/logo.</div></div>
+    <div class="dg-r"><div class="dg-sym">Cai no meio<br><span style="color:var(--faint);font-weight:400">retenção desaba aos 5–10s</span></div><div class="dg-fix">o hook prometeu e o <b>corpo</b> não entregou. Encurta, acelera o corte (1,5–3s), entrega o payload visual mais cedo. Provável excesso de "enrolação" antes do produto.</div></div>
+    <div class="dg-r"><div class="dg-sym">Conclui, zero save<br><span style="color:var(--faint);font-weight:400">entretém mas não guarda</span></div><div class="dg-fix">falta <b>valor concreto</b>: preço na tela, lista numerada, "salva pra não perder". Save é intenção de compra adiada — sem ele o vídeo vira entretenimento puro.</div></div>
+    <div class="dg-r"><div class="dg-sym">Save bom, sem clique<br><span style="color:var(--faint);font-weight:400">quer, mas não vai ao tag</span></div><div class="dg-fix">o <b>CTA / caminho de compra</b> falhou. Diz explicitamente "produto marcado aqui embaixo", mostra o tag, repete no fim. Confere se o product tag está realmente no vídeo.</div></div>
+    <div class="dg-r"><div class="dg-sym">Clica, não compra<br><span style="color:var(--faint);font-weight:400">CVR baixo no Shop</span></div><div class="dg-fix">não é criativo — é <b>produto/preço/página</b>. Ticket alto demais pra impulso, nota baixa, ou outro criador pegou o primeiro clique (janela 14d). Revisa a régua do M14.</div></div>
+  </div>
+  <div class="decl-note" style="margin-top:14px"><b style="color:var(--text)">Uma variável por vez.</b> Mudou hook E produto E duração no mesmo teste? O dado não diz o que funcionou. Vídeo que morreu não é fracasso — é a variável que você descobriu que não usar.</div>
+
+  <!-- 21.5 IA -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">21.5 — Vídeo com camada de IA · como medir sem se enganar</div>
+  <div class="principle-box">
+    <div class="pb-label">A regra do M15 continua de pé</div>
+    <p class="pb-text">Isto aqui é sobre <strong>medição</strong>, não sobre liberar IA no produto. <strong>IA no pixel do produto físico segue vetada</strong> (Parte 15): o comprador precisa ver o item real que vai receber — IA gera expectativa quebrada → devolução → estorno. E o TikTok já excluiu perfil por vídeo "sem produto físico em mãos" (Parte 20.9). O que se mede aqui é a <strong>camada de IA permitida</strong>: roteiro, corte, legenda — e, no limite do teste, voz.</p>
+  </div>
+  <ul style="margin-top:16px;padding-left:20px;color:#C8C8D4;font-size:14px;line-height:1.8">
+    <li><b style="color:#fff">Isole a variável.</b> Pra saber se a IA ajuda ou atrapalha, troque <b>só uma camada</b>: mesmo vídeo, voz real vs voz sintética (TTS) — 3 cortes cada, 48h, compara conclusão + save. Tudo mais igual.</li>
+    <li><b style="color:#fff">Sinal de mercado:</b> voz sintética / TTS robótica tende a <b>ranquear pior</b> que gravação de voz original, mesmo imperfeita. [estimativa·calibrar — fontes divergem do oficial]</li>
+    <li><b style="color:#fff">Rótulo é obrigatório</b> pra IA realista (imagem/áudio/vídeo) no TikTok, IG e YouTube — o C2PA auto-rotula sozinho via metadados. <b>Roteiro, hook e legenda por IA são isentos</b> de rótulo. [verificado·jun/2026]</li>
+    <li><b style="color:#fff">Regra prática:</b> rotular sempre (risco de conta &gt; custo de alcance), priorizar <b>voz humana</b>, usar IA como assistência invisível — nunca como o pixel do produto.</li>
+  </ul>
+
+  <!-- 21.6 loop -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:10px">21.6 — O loop de iteração semanal</div>
+  <ol class="steps-list" style="margin-top:0">
+    <li><strong>Coleta:</strong> domingo, exporta as métricas da semana (hook 3s, conclusão, save, clique no tag) dos vídeos postados.</li>
+    <li><strong>Lê a curva</strong> de retenção do melhor e do pior — acha o ponto exato onde cada um perdeu gente (árvore 21.4).</li>
+    <li><strong>Hipótese:</strong> escreve em 1 linha "o pior caiu porque ____, vou trocar ____".</li>
+    <li><strong>Testa UMA variável:</strong> 3 vídeos com a mudança, resto igual ao vencedor da semana.</li>
+    <li><strong>Espera 48h</strong> antes de concluir (cold start vem em ondas — 24h engana).</li>
+    <li><strong>Registra na planilha</strong> o que ganhou. Vencedor vira base da próxima semana; perdedor morre. (Conecta com o protocolo de teste do M16.)</li>
+  </ol>
+</div>
+
+<!-- 22: CRIATIVO COM ROSTO -->
+<div class="sh r" id="s22"><div class="sh-inner"><span class="sh-no">22</span><span class="sh-label">criativo com rosto · roupa e produto na mão · [dominar]</span></div></div>
+<div class="sb r">
+  <p class="decl-text" style="font-size:clamp(18px,3vw,28px)">Rosto não é "melhor" que faceless — <em>é outro formato, pra outro produto.</em> Pra roupa é quase obrigatório; pra item geral, é a prova de uso que o faceless não dá.</p>
+
+  <div class="principle-box" style="margin:24px 0">
+    <div class="pb-label">Decisão de identidade · leia antes</div>
+    <p class="pb-text">A operação setup é <strong>faceless · dark</strong> (Parte 15). Rosto <strong>não combina com conta dark</strong> — quem aparece constrói cara, nome, recorrência. Então isto aqui é uma <strong>decisão consciente</strong>: ou você abre uma segunda frente com rosto (conta separada, nicho de moda/lifestyle, trilho Shein), ou usa rosto pontualmente como prova num produto que pede. Não misture os dois numa conta só.</p>
+  </div>
+
+  <!-- 22.1 quando sair do faceless -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">22.1 — Quando sair do faceless</div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Produto</th><th>Rosto</th><th>Por quê</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><b>Roupa (Shein)</b></td><td style="color:var(--tk);font-weight:700">quase obrigatório</td><td>caimento, tecido e tamanho só se provam no corpo. Try-on é o formato que converte moda.</td></tr>
+        <tr><td>Acessório de vestir (bolsa, óculos, relógio)</td><td>forte</td><td>escala e proporção pedem referência humana.</td></tr>
+        <tr><td>Item de uso na mão (gadget, cozinha, beleza)</td><td>opcional</td><td>mão já dá escala e prova; rosto agrega confiança, não é essencial.</td></tr>
+        <tr><td>Setup / mesa</td><td style="color:var(--faint)">dispensável</td><td>é nicho visual de objeto — faceless escala melhor (Parte 15).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 22.2 setup de gravação -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:10px">22.2 — Setup de gravação · o mínimo que resolve</div>
+  <ol class="steps-list" style="margin-top:0">
+    <li><strong>Vertical 9:16, 1080×1920.</strong> Câmera na altura do peito/olho, nunca de baixo. Tripé ou apoio fixo — vídeo tremido perde retenção nos 3s.</li>
+    <li><strong>Luz de janela</strong> de frente (não de costas), ou ring light barato. Rosto e tecido precisam de luz pra cor aparecer — roupa mal-iluminada parece outra peça e gera devolução.</li>
+    <li><strong>Plano americano</strong> (cintura pra cima) pro try-on de parte de cima; <strong>corpo inteiro</strong> pra caimento; <strong>close</strong> pro detalhe de tecido/costura.</li>
+    <li><strong>Áudio:</strong> fone com microfone perto da boca &gt; microfone do celular a 2 metros. Som ruim derruba mais que imagem mediana.</li>
+    <li><strong>Fundo limpo e constante</strong> — parede neutra ou arara. O produto é a estrela; cenário poluído rouba atenção.</li>
+  </ol>
+
+  <!-- 22.3 try-on roupa -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">22.3 — Try-on de roupa · a estrutura que converte</div>
+  <div class="matrix">
+    <div class="mcol yes">
+      <div class="mc-hd">A sequência que vende</div>
+      <ul>
+        <li><b>Peça no cabide / antes de vestir</b> — desperta curiosidade ("será que fica bom?").</li>
+        <li><b>Vestindo (corte seco)</b> — o "reveal" é o momento de maior retenção.</li>
+        <li><b>Caimento em movimento</b> — gira, anda, mexe o braço. Foto não mostra isso; é o seu diferencial sobre o catálogo.</li>
+        <li><b>Detalhe do tecido</b> em close — costura, estampa, transparência.</li>
+        <li><b>Medidas + preço na tela</b> — "1,68m, peguei M" mata a objeção nº1 da compra online.</li>
+      </ul>
+    </div>
+    <div class="mcol no">
+      <div class="mc-hd">O que derruba o try-on</div>
+      <ul>
+        <li>Mostrar só parada de frente — vira foto, perde o motivo de ser vídeo.</li>
+        <li>Luz amarela/escura que distorce a cor real — devolução garantida.</li>
+        <li>Não falar tamanho/altura — a dúvida não resolvida não vira clique.</li>
+        <li>Esconder defeito (transparência, caimento ruim) — a review negativa estorna a comissão depois.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 22.4 item na mão -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">22.4 — Item geral na mão</div>
+  <p style="font-size:14px;color:#C8C8D4;line-height:1.7"><b>A mão é a escala</b> — mostra o tamanho real melhor que qualquer número. Ângulos: pega, abre, usa, compara com objeto conhecido ("do tamanho de um cartão"). <b>Antes/depois real</b> (o item resolvendo o problema na sua frente) é o argumento mais forte e o que o faceless nunca entrega tão bem. Rosto entra só pra reação genuína ("não esperava que fosse tão firme") — autenticidade, não atuação.</p>
+
+  <!-- 22.5 roteiro timecode -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:8px">22.5 — Roteiro com rosto · try-on · timecode</div>
+  <div class="rt-tc tw">
+    <table>
+      <thead><tr><th>Tempo</th><th>O que aparece</th><th>Texto na tela</th><th>Fala literal</th><th>Edição</th></tr></thead>
+      <tbody>
+        <tr><td class="t">0–3s</td><td>você segurando a peça no cabide, ainda sem vestir, expressão de dúvida</td><td>R$59 NA SHEIN · SERÁ?</td><td class="fala">"Paguei 59 reais nessa peça. Deixa eu ser sincera com você."</td><td class="ed">corte seco · texto grande no terço superior · rosto + produto no mesmo frame</td></tr>
+        <tr><td class="t">3–7s</td><td>corte para você já vestindo — o "reveal"</td><td>—</td><td class="fala">"Vestiu… e olha isso."</td><td class="ed">corte no beat · punch-in leve · o reveal é o pico de retenção, não atrase</td></tr>
+        <tr><td class="t">7–13s</td><td>caimento em movimento: gira, anda, levanta o braço</td><td>1,68m · peguei M</td><td class="fala">"Tenho 1,68, peguei o M e ficou exatamente assim, sem apertar."</td><td class="ed">câmera fixa, você se move · medida entra como cartela (mata a objeção)</td></tr>
+        <tr><td class="t">13–18s</td><td>close no tecido / costura / estampa</td><td>tecido + costura ⤵</td><td class="fala">"O tecido é melhor do que eu esperava pelo preço. Costura firme."</td><td class="ed">close estável 2–3s · honestidade vende mais que elogio vazio</td></tr>
+        <tr><td class="t">18–22s</td><td>você de novo no plano americano, apontando pra baixo</td><td>cupom + link aqui 👇 (sem emoji: seta)</td><td class="fala">"Tá com cupom no link. Salva que esses preços somem."</td><td class="ed">CTA claro pro produto marcado · pede SALVE · último frame casa com o 1º (loop)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 22.6 hooks com rosto -->
+  <div style="margin-top:28px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:14px">22.6 — Hooks com rosto · 5 ângulos que param o scroll</div>
+  <div class="hk-grid">
+    <div class="hk-card">
+      <div class="hk-hd"><div class="hk-name">01 · Try-on / reação</div><div class="hk-def">o reveal é o gancho — a reação genuína ao vestir.</div></div>
+      <pre>"Paguei R$59 nessa peça. Deixa eu ser sincera."
+"Comprei online com medo. Olha como chegou."
+"Vestiu e eu não esperava por isso."
+"3 peças da Shein no corpo, sem filtro de loja."</pre>
+    </div>
+    <div class="hk-card">
+      <div class="hk-hd"><div class="hk-name">02 · Provei por você</div><div class="hk-def">você assume o risco que o espectador tem medo de correr.</div></div>
+      <pre>"Pedi pra você não precisar arriscar. Veredito no final."
+"Testei o tamanho que todo mundo erra. Anota."
+"Comprei os 3 mais vendidos pra ver se valem."
+"Você não precisa devolver — eu já devolvi pra te contar."</pre>
+    </div>
+    <div class="hk-card">
+      <div class="hk-hd"><div class="hk-name">03 · Caimento + medidas</div><div class="hk-def">mata a objeção nº1 da compra de roupa online: vai servir?</div></div>
+      <pre>"1,68m, 68kg, peguei M. Ficou assim."
+"Se você tem quadril largo, presta atenção nessa."
+"A tabela diz P, mas pega o M. Por isso."
+"Esse modelo veste menor. Pega um número acima."</pre>
+    </div>
+    <div class="hk-card">
+      <div class="hk-hd"><div class="hk-name">04 · Ancoragem de preço vestida</div><div class="hk-def">o preço alto na cabeça, o real na tela — com a peça no corpo.</div></div>
+      <pre>"Essa parece roupa de R$200. Custou R$59."
+"Loja do shopping cobra R$180 numa igual. Olha o link."
+"Adivinha o preço antes de eu mostrar."
+"Se isso fosse de marca, era 4× o preço."</pre>
+    </div>
+    <div class="hk-card">
+      <div class="hk-hd"><div class="hk-name">05 · Objeção de compra online</div><div class="hk-def">nomeia o medo de comprar sem provar e resolve na hora.</div></div>
+      <pre>"Medo de comprar roupa online e não servir? Olha isso."
+"'Chega diferente da foto' — chegou. Comparando agora."
+"Demora pra chegar? Pedi dia X, chegou dia Y."
+"O tecido é ruim? Toca aqui comigo (close)."</pre>
+    </div>
+  </div>
+
+  <!-- 22.7 ponte shein -->
+  <div class="decl-note" style="margin-top:24px"><b style="color:var(--shein)">Ponte Shein:</b> este formato é o trilho da Parte 02 que destrava o programa Shein — roupa + caimento real + cupom na bio + ID do produto no vídeo. Atribuição de 30 dias (a mais longa) segura a recompra. Cadastro e regras no painel: Parte 14 (Centro de Afiliados). Declare a parceria ("publi") — CONAR exige.</div>
+</div>
+
 <footer>
   <div class="ft">
-    <span class="ft-b">SETUP_MANUAL · v3 · documento de estudo interno · módulos 12–18 ativos</span>
-    <span class="ft-n">uso: dois operadores · não distribuir · revisar premissas da Parte 07 ao fim do Mês 01</span>
+    <span class="ft-b">SETUP_MANUAL · v3 · documento de estudo interno · módulos 12–22 ativos</span>
+    <span class="ft-n">uso: solo ou em dupla · não distribuir · revisar premissas da Parte 07 ao fim do Mês 01</span>
   </div>
 </footer>
 
@@ -2736,6 +3224,64 @@ details.t90 .t90-bd{animation:t90in .28s ease}
     }
     els.forEach(function(e){e.addEventListener('input',calc)});
     calc();
+  }
+
+  /* ── toggle solo/dupla (modo de operação) ── */
+  var msBtns=[].slice.call(document.querySelectorAll('.ms-btn'));
+  function msRender(){
+    var solo=document.body.classList.contains('mode-solo');
+    msBtns.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-mode')===(solo?'solo':'duo'));});
+  }
+  msBtns.forEach(function(b){b.addEventListener('click',function(){
+    var m=b.getAttribute('data-mode');
+    document.body.classList.remove('mode-solo','mode-duo');
+    document.body.classList.add('mode-'+m);
+    try{localStorage.setItem('sm3-mode',m)}catch(e){}
+    msRender();
+  });});
+  msRender();
+
+  /* ── tema (dark / morno / light) ── */
+  var thBtns=[].slice.call(document.querySelectorAll('.pf-btn[data-theme]'));
+  function thRender(){
+    var cur=document.body.classList.contains('theme-light')?'light':document.body.classList.contains('theme-warm')?'warm':'dark';
+    thBtns.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-theme')===cur);});
+  }
+  thBtns.forEach(function(b){b.addEventListener('click',function(){
+    var t=b.getAttribute('data-theme');
+    document.body.classList.remove('theme-dark','theme-warm','theme-light');
+    document.body.classList.add('theme-'+t);
+    try{localStorage.setItem('sm3-theme',t)}catch(e){}
+    thRender();
+  });});
+  thRender();
+
+  /* ── tamanho do texto (zoom responsivo do site inteiro) ── */
+  var fScale=parseFloat(localStorage.getItem('sm3-font'))||1;
+  var fVal=document.getElementById('pf-font-val');
+  function fRender(){document.documentElement.style.zoom=(fScale===1?'':fScale);if(fVal)fVal.textContent=Math.round(fScale*100)+'%';}
+  [].slice.call(document.querySelectorAll('.pf-btn[data-font]')).forEach(function(b){
+    b.addEventListener('click',function(){
+      var d=b.getAttribute('data-font')==='inc'?0.1:-0.1;
+      fScale=Math.min(1.6,Math.max(0.8,Math.round((fScale+d)*10)/10));
+      try{localStorage.setItem('sm3-font',fScale)}catch(e){}
+      fRender();
+    });
+  });
+  fRender();
+
+  /* ── painel de preferências: abre/fecha ── */
+  var pT=document.getElementById('prefs-toggle'),pP=document.getElementById('prefs-panel');
+  if(pT&&pP){
+    pT.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(pP.hasAttribute('hidden')){pP.removeAttribute('hidden');pT.setAttribute('aria-expanded','true');}
+      else{pP.setAttribute('hidden','');pT.setAttribute('aria-expanded','false');}
+    });
+    pP.addEventListener('click',function(e){e.stopPropagation();});
+    document.addEventListener('click',function(e){
+      if(!pP.hasAttribute('hidden')&&!pP.contains(e.target)&&e.target!==pT){pP.setAttribute('hidden','');pT.setAttribute('aria-expanded','false');}
+    });
   }
 })();
 </script>
